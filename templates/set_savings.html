@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+
+{%block title %}
+    Set Savings
+{% endblock %}
+
+{% block main %}
+<main>
+    <form method="POST">
+        <div class="form-group col-8">
+          <select class="form-control" id="choose_table" name="chosen_table" onchange='if(this.value != 0) { this.form.submit(); }'>
+            <option>Select table </option>
+              <option value="Monthly Budget">Income</option>
+              <option value="Monthly Budget">Monthly Budget</option>
+              <option value="Daily Budget">Daily Budget</option>
+              <option value="Savings">Savings</option>
+          </select>
+        </div>
+    <!-- Create table -->
+        <table class="table" id="table-striped">
+        <thead>
+            <tr>
+            {% if title == "Income" %}
+                <th scope="col">Item</th>
+                <th scope="col">Date</th>
+                <th scope="col">Value</th>
+
+            {% elif title == 'Monthly Budget' or title == 'Daily Budget' %}
+                <th scope="col">Item</th>
+                <th scope="col">Fixed Value</th>
+                <th scope="col">Expected for the month</th>
+                <th scope="col">Spend</th>
+                <th scope="col">Available</th>
+
+            {% elif title == 'Savings' %}
+                <th scope="col">Item</th>
+                <th scope="col">Fixed Value</th>
+                <th scope="col">Expected for the month</th>
+                <th scope="col">Saved</th>
+                <th scope="col">Available</th>
+        
+            {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            <h5>{{title}} </h5>
+            <!-- Read the n variable to get different stocks -->
+            {% for i in table_values %}
+            <p>{{i}}</p>
+            <tr>
+            <!-- Create a new row and then add cells-->
+            <th scope="row">{{ i["item"]}}</th>      
+                {% for key, value in i.items() %}
+                    {% if key != 'user_id' and key != 'item' and key != 'id' and key != 'value' and value != None %}
+                        <td>{{ value }}</td>
+                    {% elif value == None %}
+                        <td>-</td>
+                    {% elif key == 'value' %}
+                        <td>${{ '%0.2f'| format(value) }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+</main>
+
+
+    
+           
+{% endblock %}

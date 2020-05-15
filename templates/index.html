@@ -1,0 +1,142 @@
+{% extends "layout.html" %}
+
+{%block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    {% if session.user_id %}
+        <div>
+            <button type="button" class="heading btn btn-link  col-2 text-left mr-1" data-toggle="collapse" href="#incometable"> Income </button>
+            <table class="table col-8" class="collapse" id="incometable">
+              <thead class="thead-dark">
+                <tr >
+                  <th scope="col">Item</th>
+                  <th scope="col" class="text-right">Date</th>
+                  <th scope="col-1" style="width:  8.33%" class="text-right">Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in income %}
+                <tr>
+                <!-- Create a new row and then add cells-->
+                <th scope="row">{{ i["item"]}}</th>      
+                    {% for key, value in i.items() %}
+                        {% if key != 'user_id' and key != 'item' and key != 'id' and key != 'value' and value != None %}
+                            <td >{{ value }}</td>
+                        {% elif value == None %}
+                            <td>-</td>
+                        {% elif key == 'value' %}
+                            <td>${{ '%0.2f'| format(value) }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+         <div>
+            <button type="button" class="heading btn btn-link  col-2 text-left mr-1" data-toggle="collapse" href="#monthlytable"> Monthly expenses </button>
+            <table class="table col-8" class="collapse" id="monthlytable">
+              <thead class="thead-dark">
+                <tr >
+                  <th scope="col">Item</th>
+                  <th scope="col">Fixed Value</th>
+                  <th scope="col">Budget for the month</th>
+                  <th scope="col">Spend</th>
+                  <th scope="col">Available</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in budget_monthly %}
+                <tr>
+                <!-- Create a new row and then add cells-->
+                <th scope="row">{{ i["item"]}}</th>      
+                    {% for key, value in i.items() %}
+                        {% if key != 'user_id' and key != 'item' and key != 'id' and key != 'value' and value != None %}
+                            <td >{{ value }}</td>
+                        {% elif value == None %}
+                            <td>-</td>
+                        {% elif key == 'value' %}
+                            <td>${{ '%0.2f'| format(value) }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+
+       <div>
+            <button type="button" class="heading btn btn-link  col-2 text-left mr-1" data-toggle="collapse" href="#dailytable"> Daily expenses </button>
+            <table class="table col-8" class="collapse" id="dailytable">
+              <thead class="thead-dark">
+                <tr >
+                  <th scope="col">Item</th>
+                  <th scope="col">Fixed Value</th>
+                  <th scope="col">Budget for the month</th>
+                  <th scope="col">Spend</th>
+                  <th scope="col">Available</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in budget_daily %}
+                <tr>
+                <!-- Create a new row and then add cells-->
+                <th scope="row">{{ i["item"]}}</th>      
+                    {% for key, value in i.items() %}
+                        {% if key != 'user_id' and key != 'item' and key != 'id' and key != 'value' and value != None %}
+                            <td >{{ value }}</td>
+                        {% elif value == None %}
+                            <td>-</td>
+                        {% elif key == 'value' %}
+                            <td>${{ '%0.2f'| format(value) }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+
+               <div>
+            <button type="button" class="heading btn btn-link  col-2 text-left mr-1" data-toggle="collapse" href="#savingstable"> Savings/investments</button>
+            <table class="table col-8" class="collapse" id="savingstable">
+              <thead class="thead-dark">
+                <tr >
+                  <th scope="col">Item</th>
+                  <th scope="col">Fixed Value</th>
+                  <th scope="col">Expeted for the month</th>
+                  <th scope="col">Saved</th>
+                  <th scope="col">Available</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in savings %}
+                <tr>
+                <!-- Create a new row and then add cells-->
+                <th scope="row">{{ i["item"]}}</th>      
+                    {% for key, value in i.items() %}
+                        {% if key != 'user_id' and key != 'item' and key != 'id' and key != 'value' and value != None %}
+                            <td >{{ value }}</td>
+                        {% elif value == None %}
+                            <td>-</td>
+                        {% elif key == 'value' %}
+                            <td>${{ '%0.2f'| format(value) }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div>  </div>
+        <h3 class="col-10"> Welcome to the Budget Project.</h3>
+        <h5 class="col-8">Please, register or log in.</h5>
+
+    {% endif %}
+
+
+{% endblock %}
