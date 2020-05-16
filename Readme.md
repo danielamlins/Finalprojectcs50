@@ -35,4 +35,4 @@ The source code is organized in an application document written in Python, a dat
 
 As you can see on the exported envirnonment variables, we defined application.py as the starting point of this application.
 
-At line (12)[https://github.com/danielamlins/Finalprojectcs50/blob/master/application.py#L12] we habe blas
+At line [12](https://github.com/danielamlins/Finalprojectcs50/blob/master/application.py#L12) we habe blas
