@@ -7,12 +7,11 @@
 {% block main %}
     {% if session.user_id %}
         <div>
-            <button type="button" class="heading btn btn-link  col-2 text-left mr-1" data-toggle="collapse" href="#incometable"> Income </button>
-            <table class="table col-8" class="collapse" id="incometable">
+            <button type="button" class="btn btn-link btn-xl col-2 text-left mr-1 offset-1 " data-toggle="collapse" href="#incometable"> Income </button>
+            <table class="table  col-10 text-left offset-1" class="collapse" id="incometable" type="text">
               <thead class="thead-dark">
                 <tr >
                   <th scope="col">Item</th>
-                  <th scope="col" class="text-right">Date</th>
                   <th scope="col-1" style="width:  8.33%" class="text-right">Value</th>
                 </tr>
               </thead>
@@ -27,7 +26,7 @@
                         {% elif value == None %}
                             <td>-</td>
                         {% elif key == 'value' %}
-                            <td>${{ '%0.2f'| format(value) }}</td>
+                            <td class="text-right">${{ '%0.2f'| format(value) }}</td>
                         {% endif %}
                     {% endfor %}
                 </tr>
@@ -37,8 +36,8 @@
         </div>
 
          <div>
-            <button type="button" class="heading btn btn-link  col-2 text-left mr-1" data-toggle="collapse" href="#monthlytable"> Monthly expenses </button>
-            <table class="table col-8" class="collapse" id="monthlytable">
+            <button type="button" class="btn btn-link btn-xl col-2 text-left mr-1 offset-1" data-toggle="collapse" href="#monthlytable"> Monthly expenses </button>
+            <table class="table  col-10 text-left offset-1" class="collapse" id="monthlytable">
               <thead class="thead-dark">
                 <tr >
                   <th scope="col">Item</th>
@@ -54,7 +53,9 @@
                 <!-- Create a new row and then add cells-->
                 <th scope="row">{{ i["item"]}}</th>      
                     {% for key, value in i.items() %}
-                        {% if key != 'user_id' and key != 'item' and key != 'id' and key != 'value' and value != None %}
+                        {% if key == 'spent' %}
+                            <td><a class="nav-link" href="/history?table='Monthly Budget'&i={{i}}">{{ value }} </a></td>
+                        {% elif key != 'user_id' and key != 'item' and key != 'id' and key != 'value' and value != None %}
                             <td >{{ value }}</td>
                         {% elif value == None %}
                             <td>-</td>
@@ -69,8 +70,8 @@
         </div>
 
        <div>
-            <button type="button" class="heading btn btn-link  col-2 text-left mr-1" data-toggle="collapse" href="#dailytable"> Daily expenses </button>
-            <table class="table col-8" class="collapse" id="dailytable">
+            <button type="button" class="btn btn-link btn-xl col-2 text-left mr-1 offset-1" data-toggle="collapse" href="#dailytable"> Daily expenses </button>
+            <table class="table  col-10 text-left offset-1" class="collapse" id="dailytable">
               <thead class="thead-dark">
                 <tr >
                   <th scope="col">Item</th>
@@ -86,7 +87,9 @@
                 <!-- Create a new row and then add cells-->
                 <th scope="row">{{ i["item"]}}</th>      
                     {% for key, value in i.items() %}
-                        {% if key != 'user_id' and key != 'item' and key != 'id' and key != 'value' and value != None %}
+                        {% if key == 'spent' %}
+                            <td><a class="nav-link" href="/history?table='Daily Budget'&i={{i}}">{{ value }} </a></td>
+                        {% elif key != 'user_id' and key != 'item' and key != 'id' and key != 'value' and value != None %}
                             <td >{{ value }}</td>
                         {% elif value == None %}
                             <td>-</td>
@@ -101,8 +104,8 @@
         </div>
 
                <div>
-            <button type="button" class="heading btn btn-link  col-2 text-left mr-1" data-toggle="collapse" href="#savingstable"> Savings/investments</button>
-            <table class="table col-8" class="collapse" id="savingstable">
+            <button type="button" class="btn btn-link btn-xl col-2 text-left mr-1 offset-1" data-toggle="collapse" href="#savingstable"> Savings</button>
+            <table class="table  col-10 text-left offset-1" class="collapse" id="savingstable">
               <thead class="thead-dark">
                 <tr >
                   <th scope="col">Item</th>
@@ -118,7 +121,9 @@
                 <!-- Create a new row and then add cells-->
                 <th scope="row">{{ i["item"]}}</th>      
                     {% for key, value in i.items() %}
-                        {% if key != 'user_id' and key != 'item' and key != 'id' and key != 'value' and value != None %}
+                        {% if key == 'saved' %}
+                            <td><a class="nav-link" href="/history">{{ value }} </a></td>
+                        {% elif key != 'user_id' and key != 'item' and key != 'id' and key != 'value' and value != None %}
                             <td >{{ value }}</td>
                         {% elif value == None %}
                             <td>-</td>

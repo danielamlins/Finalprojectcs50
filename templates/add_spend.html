@@ -14,14 +14,14 @@
         Please, select table and row.
     </div>
     {% endif %}
-    <p>table trows = {{table_rows}} table = {{table}}</p> 
     <form action='/add_spend' method="POST">
         <div class="form-group col-4" >
+            <label for="choose_table">Table</label>
             <select required class="form-control" id="choose_table" name="chosen_table" onchange='if(this.value != 0) { this.form.submit(); }'>
                 {% if table == Null %}
                     <option> Select Table </option>
                 {% else %}
-                    <option> {{table}} </option>
+                    <option name='chosen_row'> {{table}} </option>
 
                 {% endif %}
                 <option value="Monthly Budget">Monthly Budget</option>
@@ -31,11 +31,12 @@
 
         {% if table != Null %}
         <div class="form-group col-4">
-            <select class="form-control" id="choose_table" name="chosen_row" required>
+            <label for="choose_row">Item</label>
+            <select class="form-control" id="choose_row" name="chosen_row" required>
                 {% for i in table_rows %}
                     {% for key, value in i.items() %}
                         {% if key == 'item' %}
-                            <option>{{value}} </option>  
+                            <option >{{value}} </option>  
                         {% endif %} 
                     {% endfor %}  
                 {% endfor %}                

@@ -16,7 +16,18 @@ h5 {
     font-size: 6;
 }
 
-.heading{
-    margin-left:50px;
-}
+.form1 {
+    margin-left: 30px;
 
+}
+.login, .register, .saved_form{
+    padding-top: 7.5rem;
+    padding-bottom: 6rem;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+  
+  select .change_color a:hover {
+    background: black !important;
+    color: white;
+  }

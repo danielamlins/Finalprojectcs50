@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{%block title %}
+    Saved money
+{% endblock %}
+
+{% block main %}
+    {% if warning == 'success' %}
+    <div class="alert alert-success text-center" role="alert">
+        Registration successful! Please log in.
+    </div>
+    {% elif warning == 'wrong_password' %}
+    <div class="alert alert-danger text-center" role="alert">
+        {{ message }}
+    </div>
+    {% endif %}
+<div class="saved_form">
+   <form action='/saved' method="POST">
+        <div class="form-group col-4">
+            <label for="value">Item</label>
+            <select class="form-control"  name="chosen_row" required>
+            {% for i in table_rows %}
+                <p>Rows {{i}}</p>
+                    {% for key, value in i.items() %}
+                        {% if key == 'item' %}
+                            <option >{{value}} </option>  
+                        {% endif %} 
+                    {% endfor %}  
+            {% endfor %}                
+            </select>
+        </div>
+        <div class="form-group col-4">
+            <label for="value">Value</label>
+            <input type="number" step=".01" min='0' class="form-control" name="value" required>      
+        </div>
+        <div class="form-group col-4">
+            <label for="obs">Observation</label>
+            <input type="text" class="form-control" name="obs" rows="3" value='-'>
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-dark" name="login_submit">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{%block title %}
+    History of purchases
+{% endblock %}
+
+{% block main %}
+<h3>{{table}}</h3>
+<h5>{{item}}</h5>
+<div>
+    <table class="table  col-10 text-left offset-1" class="collapse" id="incometable" type="text">
+      <thead class="thead-dark">
+        <tr >
+          <th scope="col">Paid value</th>
+          <th scope="col">Store</th>
+          <th scope="col">Payment Details</th>
+          <th scope="col">Obs</th>
+          <th scope="col">Date</th>
+
+        </tr>
+      </thead>
+      
+      <tbody>
+        {% for i in info %}
+        {% if i == None %}
+             <p>None</p>
+        {% endif %}
+        <p>{{i}}</p>
+        <tr>
+        <!-- Create a new row and then add cells-->
+        <th scope="row">${{ '%0.2f'| format(i["value"]) }}</th>      
+            {% for key, value in i.items() %}
+                {% if key != 'user_id' and key != 'id' and key != 'origin_table' and key != 'row_id' and key != 'item' and key != 'value' and value != None %}
+                    <td >{{ value }}</td>
+                {% elif value == None %}
+                    <td>-</td>
+                
+                {% endif %}
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}
