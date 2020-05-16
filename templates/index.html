@@ -1,147 +1,218 @@
 {% extends "layout.html" %}
 
 {%block title %}
-    Index
+Index
 {% endblock %}
 
 {% block main %}
-    {% if session.user_id %}
-        <div>
-            <button type="button" class="btn btn-link btn-xl col-2 text-left mr-1 offset-1 " data-toggle="collapse" href="#incometable"> Income </button>
-            <table class="table  col-10 text-left offset-1" class="collapse" id="incometable" type="text">
-              <thead class="thead-dark">
-                <tr >
-                  <th scope="col">Item</th>
-                  <th scope="col-1" style="width:  8.33%" class="text-right">Value</th>
-                </tr>
-              </thead>
-              <tbody>
+
+{% if session.user_id %}
+<div class="medium-table elevated">
+    <div class="table-card-title col-4 offset-4 text-center">
+        <button type="button" class="btn btn-link btn-xl text-center" data-toggle="collapse" href="#incometable"> Income
+        </button>
+    </div>
+    <div class="table-container">
+        <table class="table text-left" class="collapse" id="incometable" type="text">
+            {% set total = [0] %}
+            <tr>
+                <th scope="col">Item</th>
+                <th scope="col-1" style="width:  8.33%" class="text-right">Value</th>
+            </tr>
+            <tbody>
                 {% for i in income %}
                 <tr>
-                <!-- Create a new row and then add cells-->
-                <th scope="row">{{ i["item"]}}</th>      
+                    <!-- Create a new row and then add cells-->
+                    <th scope="row">{{ i["item"]}}</th>
                     {% for key, value in i.items() %}
-                        {% if key != 'user_id' and key != 'item' and key != 'id' and key != 'value' and value != None %}
-                            <td >{{ value }}</td>
-                        {% elif value == None %}
-                            <td>-</td>
-                        {% elif key == 'value' %}
-                            <td class="text-right">${{ '%0.2f'| format(value) }}</td>
-                        {% endif %}
+                    {% if key != 'user_id' and key != 'item' and key != 'id' and key != 'value' and value != None %}
+                    <td>{{ value }}</td>
+                    {% elif value == None %}
+                    <td>-</td>
+                    {% elif key == 'value' %}
+                    <td class="text-right">${{ '%0.2f'| format(value) }}</td>
+                    {% set _ = total.append(total.pop() + value|int) %}
+                    {% endif %}
                     {% endfor %}
                 </tr>
                 {% endfor %}
-            </tbody>
-          </table>
-        </div>
-
-         <div>
-            <button type="button" class="btn btn-link btn-xl col-2 text-left mr-1 offset-1" data-toggle="collapse" href="#monthlytable"> Monthly expenses </button>
-            <table class="table  col-10 text-left offset-1" class="collapse" id="monthlytable">
-              <thead class="thead-dark">
-                <tr >
-                  <th scope="col">Item</th>
-                  <th scope="col">Fixed Value</th>
-                  <th scope="col">Budget for the month</th>
-                  <th scope="col">Spend</th>
-                  <th scope="col">Available</th>
+                <tr>
+                    <th>Total</th>
+                    <th class="text-right">$ {{'%0.2f'| format(total[0])}}</th>
                 </tr>
-              </thead>
-              <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="medium-table elevated">
+    {% set total_fixed= [0] %}
+    {% set total_expected= [0] %}
+    {% set total_spent= [0] %}
+    {% set total_avail= [0] %}
+    <div class="table-card-title col-4 offset-4 text-center">
+        <button type="button" class="btn btn-link btn-xl text-center" data-toggle="collapse"
+            href="#monthlytable">Monthly expenses</button>
+    </div>
+    <div class="table-container">
+        <table class="table text-left" class="collapse" id="monthlytable">
+            <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Fixed Value</th>
+                <th scope="col">Budget for the month</th>
+                <th scope="col">Spend</th>
+                <th scope="col">Available</th>
+            </tr>
+            </thead>
+            <tbody>
                 {% for i in budget_monthly %}
                 <tr>
-                <!-- Create a new row and then add cells-->
-                <th scope="row">{{ i["item"]}}</th>      
+                    <!-- Create a new row and then add cells-->
+                    <th scope="row">{{ i["item"]}}</th>
                     {% for key, value in i.items() %}
-                        {% if key == 'spent' %}
-                            <td><a class="nav-link" href="/history?table='Monthly Budget'&i={{i}}">{{ value }} </a></td>
-                        {% elif key != 'user_id' and key != 'item' and key != 'id' and key != 'value' and value != None %}
-                            <td >{{ value }}</td>
-                        {% elif value == None %}
-                            <td>-</td>
-                        {% elif key == 'value' %}
-                            <td>${{ '%0.2f'| format(value) }}</td>
-                        {% endif %}
+
+                    {% if key == 'fixed' %}
+                    <td>{{ value }}</td>
+                    {% set _ = total_fixed.append(total_fixed.pop() + value|int) %}
+                    {% elif key == 'expected' %}
+                    <td>{{ value }}</td>
+                    {% set _ = total_expected.append(total_expected.pop() + value|int) %}
+                    {% elif key == 'spent' %}
+                    <td><a class="nav-link" href="/history?table='Monthly Budget'&i={{i}}">{{ value }} </a></td>
+                    {% set _ = total_spent.append(total_spent.pop() + value|int) %}
+                    {% elif key == 'available' %}
+                    <td>{{ value }}</td>
+                    {% set _ = total_avail.append(total_avail.pop() + value|int) %}
+                    {% endif %}
                     {% endfor %}
                 </tr>
                 {% endfor %}
-            </tbody>
-            </table>
-        </div>
-
-       <div>
-            <button type="button" class="btn btn-link btn-xl col-2 text-left mr-1 offset-1" data-toggle="collapse" href="#dailytable"> Daily expenses </button>
-            <table class="table  col-10 text-left offset-1" class="collapse" id="dailytable">
-              <thead class="thead-dark">
-                <tr >
-                  <th scope="col">Item</th>
-                  <th scope="col">Fixed Value</th>
-                  <th scope="col">Budget for the month</th>
-                  <th scope="col">Spend</th>
-                  <th scope="col">Available</th>
+                <tr>
+                    <th>Total</th>
+                    <th>{{'%0.2f'| format(total_fixed[0])}}</th>
+                    <th>{{'%0.2f'| format(total_expected[0])}}</th>
+                    <th>{{'%0.2f'| format(total_spent[0])}}</th>
+                    <th>{{'%0.2f'| format(total_avail[0])}}</th>
                 </tr>
-              </thead>
-              <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="medium-table elevated">
+    {% set total_fixed= [0] %}
+    {% set total_expected= [0] %}
+    {% set total_spent= [0] %}
+    {% set total_avail= [0] %}
+    <div class="table-card-title col-4 offset-4 text-center">
+        <button type="button" class="btn btn-link btn-xl text-center" data-toggle="collapse" href="#monthlytable">Daily
+            expenses</button>
+    </div>
+    <div class="table-container">
+        <table class="table text-left" class="collapse" id="dailytable">
+            <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Fixed Value</th>
+                <th scope="col">Budget for the month</th>
+                <th scope="col">Spend</th>
+                <th scope="col">Available</th>
+            </tr>
+            </thead>
+            <tbody>
                 {% for i in budget_daily %}
                 <tr>
-                <!-- Create a new row and then add cells-->
-                <th scope="row">{{ i["item"]}}</th>      
+                    <!-- Create a new row and then add cells-->
+                    <th scope="row">{{ i["item"]}}</th>
                     {% for key, value in i.items() %}
-                        {% if key == 'spent' %}
-                            <td><a class="nav-link" href="/history?table='Daily Budget'&i={{i}}">{{ value }} </a></td>
-                        {% elif key != 'user_id' and key != 'item' and key != 'id' and key != 'value' and value != None %}
-                            <td >{{ value }}</td>
-                        {% elif value == None %}
-                            <td>-</td>
-                        {% elif key == 'value' %}
-                            <td>${{ '%0.2f'| format(value) }}</td>
-                        {% endif %}
+
+                    {% if key == 'fixed' %}
+                    <td>{{ value }}</td>
+                    {% set _ = total_fixed.append(total_fixed.pop() + value|int) %}
+                    {% elif key == 'expected' %}
+                    <td>{{ value }}</td>
+                    {% set _ = total_expected.append(total_expected.pop() + value|int) %}
+                    {% elif key == 'spent' %}
+                    <td><a class="nav-link" href="/history?table='Daily Budget'&i={{i}}">{{ value }} </a></td>
+                    {% set _ = total_spent.append(total_spent.pop() + value|int) %}
+                    {% elif key == 'available' %}
+                    <td>{{ value }}</td>
+                    {% set _ = total_avail.append(total_avail.pop() + value|int) %}
+                    {% endif %}
                     {% endfor %}
                 </tr>
                 {% endfor %}
-            </tbody>
-            </table>
-        </div>
-
-               <div>
-            <button type="button" class="btn btn-link btn-xl col-2 text-left mr-1 offset-1" data-toggle="collapse" href="#savingstable"> Savings</button>
-            <table class="table  col-10 text-left offset-1" class="collapse" id="savingstable">
-              <thead class="thead-dark">
-                <tr >
-                  <th scope="col">Item</th>
-                  <th scope="col">Fixed Value</th>
-                  <th scope="col">Expeted for the month</th>
-                  <th scope="col">Saved</th>
-                  <th scope="col">Available</th>
+                <tr>
+                    <th>Total</th>
+                    <th>{{'%0.2f'| format(total_fixed[0])}}</th>
+                    <th>{{'%0.2f'| format(total_expected[0])}}</th>
+                    <th>{{'%0.2f'| format(total_spent[0])}}</th>
+                    <th>{{'%0.2f'| format(total_avail[0])}}</th>
                 </tr>
-              </thead>
-              <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="medium-table elevated">
+    {% set total_fixed= [0] %}
+    {% set total_expected= [0] %}
+    {% set total_saved= [0] %}
+    {% set total_avail= [0] %}
+    <div class="table-card-title col-4 offset-4 text-center">
+        <button type="button" class="btn btn-link btn-xl text-center" data-toggle="collapse"
+            href="#monthlytable">Savings</button>
+    </div>
+    <div class="table-container">
+        <table class="table text-left" class="collapse" id="savingstable">
+            <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Fixed Value</th>
+                <th scope="col">Expeted for the month</th>
+                <th scope="col">Saved</th>
+                <th scope="col">Available</th>
+            </tr>
+            </thead>
+            <tbody>
                 {% for i in savings %}
                 <tr>
-                <!-- Create a new row and then add cells-->
-                <th scope="row">{{ i["item"]}}</th>      
+                    <!-- Create a new row and then add cells-->
+                    <th scope="row">{{ i["item"]}}</th>
                     {% for key, value in i.items() %}
-                        {% if key == 'saved' %}
-                            <td><a class="nav-link" href="/history">{{ value }} </a></td>
-                        {% elif key != 'user_id' and key != 'item' and key != 'id' and key != 'value' and value != None %}
-                            <td >{{ value }}</td>
-                        {% elif value == None %}
-                            <td>-</td>
-                        {% elif key == 'value' %}
-                            <td>${{ '%0.2f'| format(value) }}</td>
-                        {% endif %}
+
+                    {% if key == 'fixed' %}
+                    <td>{{ value }}</td>
+                    {% set _ = total_fixed.append(total_fixed.pop() + value|int) %}
+                    {% elif key == 'expected' %}
+                    <td>{{ value }}</td>
+                    {% set _ = total_expected.append(total_expected.pop() + value|int) %}
+                    {% elif key == 'saved' %}
+                    <td><a class="nav-link" href="/history?table='Savings'&i={{i}}">{{ value }} </a></td>
+                    {% set _ = total_saved.append(total_saved.pop() + value|int) %}
+                    {% elif key == 'available' %}
+                    <td>{{ value }}</td>
+                    {% set _ = total_avail.append(total_avail.pop() + value|int) %}
+                    {% endif %}
                     {% endfor %}
                 </tr>
                 {% endfor %}
+                <tr>
+                    <th>Total</th>
+                    <th>{{'%0.2f'| format(total_fixed[0])}}</th>
+                    <th>{{'%0.2f'| format(total_expected[0])}}</th>
+                    <th>{{'%0.2f'| format(total_saved[0])}}</th>
+                    <th>{{'%0.2f'| format(total_avail[0])}}</th>
+                </tr>
             </tbody>
-            </table>
-        </div>
-    {% else %}
-        <div>  </div>
-        <h3 class="col-10"> Welcome to the Budget Project.</h3>
-        <h5 class="col-8">Please, register or log in.</h5>
+        </table>
+    </div>
+</div>
+{% else %}
+<div> </div>
+<h3 class="col-10"> Welcome to the Budget Project.</h3>
+<h5 class="col-8">Please, register or log in.</h5>
 
-    {% endif %}
+{% endif %}
 
 
 {% endblock %}

@@ -4,15 +4,20 @@ h3 {
 }
 
 h5 {
-    color: ##696969;
-    margin-left: 60px;
-    margin-top: 30px;
+    margin-top: 50px;
     font-weight: bold;
     font-size: 5;
+    padding: 30px
 }
 
+.table-container {
+    margin-right:30px;
+    margin-left:30px;
+}
+
+
 .table {
-    margin-top: 30px;
+    width:100%;
     font-size: 6;
 }
 
@@ -21,8 +26,6 @@ h5 {
 
 }
 .login, .register, .saved_form{
-    padding-top: 7.5rem;
-    padding-bottom: 6rem;
     background-repeat: no-repeat;
     background-position: center center;
   }
@@ -30,4 +33,44 @@ h5 {
   select .change_color a:hover {
     background: black !important;
     color: white;
+  }
+
+  .medium-table {
+    width:70%;
+    background:#fff;
+    margin:40px auto;
+    padding-bottom: 20px;
+
+}
+
+.small-table {
+    width:30%;
+    background:#fff;
+    margin:40px auto;
+    padding-bottom: 20px;
+
+}
+
+.elevated{
+    -webkit-box-shadow: 0 10px 6px -6px #777;
+    -moz-box-shadow: 0 10px 6px -6px #777;
+    box-shadow: 0 10px 6px -6px #777;
+}
+
+#parent { 
+    float: right; 
+    width: 100%;
+    overflow: hidden;
+}
+
+.clear {
+    clear: both;
+    text-align: center;
+    height: 37px;
+    border: 3px dashed pink;
+  }
+  .clear:after {
+    position: static;
+    content: 'Block sibling with clearance';
+    color: pink;
   }

@@ -14,8 +14,13 @@
         Please, select table and row.
     </div>
     {% endif %}
-    <form action='/add_spend' method="POST">
-        <div class="form-group col-4" >
+    <div class="small-table elevated">
+        <div class="table-container">
+            <div class="table-card-title col-6 offset-3 text-center">
+                <h5> Add Purchase</h5>
+            </div>
+        <form action='/add_spend' method="POST">
+        <div class="form-group col-md-12" >
             <label for="choose_table">Table</label>
             <select required class="form-control" id="choose_table" name="chosen_table" onchange='if(this.value != 0) { this.form.submit(); }'>
                 {% if table == Null %}
@@ -30,7 +35,7 @@
         </div>
 
         {% if table != Null %}
-        <div class="form-group col-4">
+        <div class="form-group col-md-12">
             <label for="choose_row">Item</label>
             <select class="form-control" id="choose_row" name="chosen_row" required>
                 {% for i in table_rows %}
@@ -44,28 +49,27 @@
         </div>
         {% endif %}
 
-        <div class="form-group col-4">
-             <label for="item_bought">Item</label>
-            <input type="text" class="form-control" name="item_bought" required>      
-        </div>
-        <div class="form-group col-4">
+    <div class="form-group col-12">
             <label for="price">Price</label>
             <input type="number" step=".01" min='0' class="form-control" name="price" required>      
             </div>
-        <div class="form-group col-4">
+        <div class="form-group col-12">
         <label for="store">Store</label>
         <input type="text" class="form-control" name="store" value='-'>
         </div>
-        <div class="form-group col-4">
+        <div class="form-group col-12">
             <label for="payment">Payment Method</label>
             <input type="text" class="form-control" name="payment" value='-'>
         </div>
-        <div class="form-group col-4">
+        <div class="form-group col-12">
             <label for="obs">Observation</label>
             <input type="text" class="form-control" name="obs" value='-'>
         </div>
-        <div class="col">
+        <div class="float-right">
             <button type="submit" class="btn btn-primary" name="login_submit">Submit</button>
         </div>
-    </form>
+        <div style="clear: both"></div>
+        </form>
+    </div>
+    
 {% endblock %}

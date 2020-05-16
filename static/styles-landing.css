@@ -11,7 +11,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 :root {
-  --blue: #007bff;
+  --blue: #343a40;
   --indigo: #6610f2;
   --purple: #6f42c1;
   --pink: #e83e8c;
@@ -66,7 +66,7 @@ body {
   line-height: 1.5;
   color: #212529;
   text-align: left;
-  background-color: #fff;
+  background-color: #ccc;
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -2515,10 +2515,41 @@ fieldset:disabled a.btn {
   box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5);
 }
 
+.btn-terc{
+  color: #fff;
+  background-color: #3F3244;
+  border-color: #3F3244;
+}
+.btn-terc:hover {
+  color: #fff;
+  background-color: #524159;
+  border-color: #524159;
+}
+.btn-terc:focus, .btn-terc.focus {
+  color: #fff;
+  background-color: #524159;
+  border-color: #524159;
+  box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5);
+}
+.btn-terc.disabled, .btn-terc:disabled {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+.btn-terc:not(:disabled):not(.disabled):active, .btn-terc:not(:disabled):not(.disabled).active, .show > .btn-terc.dropdown-toggle {
+  color: #fff;
+  background-color: #545b62;
+  border-color: #4e555b;
+}
+.btn-terc:not(:disabled):not(.disabled):active:focus, .btn-terc:not(:disabled):not(.disabled).active:focus, .show > .btn-terc.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5);
+}
+
 .btn-success {
   color: #fff;
   background-color: #28a745;
   border-color: #28a745;
+  font-family: Lemonada;
 }
 .btn-success:hover {
   color: #fff;
@@ -3991,7 +4022,7 @@ input[type=button].btn-block {
   white-space: nowrap;
 }
 .navbar-brand:hover, .navbar-brand:focus {
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 .navbar-nav {

@@ -1,22 +1,19 @@
 {% extends "layout.html" %}
 
 {%block title %}
-History of purchases
+History of savings
 {% endblock %}
 
 {% block main %}
-
 <div class="medium-table elevated">
   <div class="table-card-title col-6 offset-3 text-center">
     <h5> {{table}} - {{item}} </h5>
   </div>
   <div class="table-container">
-    <table class="table text-left" class="collapse" id="incometable" type="text">
+    <table class="table  col-12 text-left  class="collapse" id="incometable" type="text">
       <thead>
         <tr>
           <th scope="col">Paid value</th>
-          <th scope="col">Store</th>
-          <th scope="col">Payment Details</th>
           <th scope="col">Obs</th>
           <th scope="col">Date</th>
 
@@ -29,10 +26,8 @@ History of purchases
           <!-- Create a new row and then add cells-->
           <th scope="row">${{ '%0.2f'| format(i["value"]) }}</th>
           {% for key, value in i.items() %}
-          {% if value != None and (key == 'store' or key == 'payment' or key== 'obs')  %}
+          {% if key == 'obs'  %}
           <td>{{ value }}</td>
-          {% elif value == None %}
-          <td>-</td>
           {% elif key == 'date' %}
           <td>{{ value.strftime('%d-%m-%Y %H:%M:%S') }}</td>
           {% endif %}
@@ -43,5 +38,4 @@ History of purchases
     </table>
   </div>
 </div>
-
 {% endblock %}
