@@ -158,7 +158,6 @@ Index
     {% set total_fixed= [0] %}
     {% set total_expected= [0] %}
     {% set total_saved= [0] %}
-    {% set total_avail= [0] %}
     <div class="table-card-title col-4 offset-4 text-center">
         <button type="button" class="btn btn-link btn-xl text-center" data-toggle="collapse"
             href="#monthlytable">Savings</button>
@@ -170,7 +169,6 @@ Index
                 <th scope="col">Fixed Value</th>
                 <th scope="col">Expeted for the month</th>
                 <th scope="col">Saved</th>
-                <th scope="col">Available</th>
             </tr>
             </thead>
             <tbody>
@@ -189,9 +187,6 @@ Index
                     {% elif key == 'saved' %}
                     <td><a class="nav-link" href="/history?table='Savings'&i={{i}}">{{ value }} </a></td>
                     {% set _ = total_saved.append(total_saved.pop() + value|int) %}
-                    {% elif key == 'available' %}
-                    <td>{{ value }}</td>
-                    {% set _ = total_avail.append(total_avail.pop() + value|int) %}
                     {% endif %}
                     {% endfor %}
                 </tr>
@@ -201,7 +196,6 @@ Index
                     <th>{{'%0.2f'| format(total_fixed[0])}}</th>
                     <th>{{'%0.2f'| format(total_expected[0])}}</th>
                     <th>{{'%0.2f'| format(total_saved[0])}}</th>
-                    <th>{{'%0.2f'| format(total_avail[0])}}</th>
                 </tr>
             </tbody>
         </table>

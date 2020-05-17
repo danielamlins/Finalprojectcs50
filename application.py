@@ -45,25 +45,6 @@ def landing():
     return render_template("landing.html")
 
 
-@app.route("/app")
-@login_required
-def index():
-    # Determine user
-    user = login_session['user_id']
-    
-    # Select data from all the tables to be passd in into the "Overview" page
-    income = db.execute("SELECT * FROM income WHERE user_id=:user",
-                        {"user": user})    
-    budget_monthly = db.execute("SELECT * FROM monthly WHERE user_id=:user",
-                                {"user": user})
-    budget_daily = db.execute("SELECT * FROM daily WHERE user_id=:user",
-                              {"user": user})
-    savings = db.execute("SELECT * FROM savings WHERE user_id=:user",
-                         {"user": user})
-    # Redirect
-    return render_template("index.html", income=income, budget_daily=budget_daily, budget_monthly=budget_monthly, savings=savings)
-
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -134,6 +115,25 @@ def login():
         return render_template("login.html")
 
 
+@app.route("/app")
+@login_required
+def index():
+    # Determine user
+    user = login_session['user_id']
+    
+    # Select data from all the tables to be passd in into the "Overview" page
+    income = db.execute("SELECT * FROM income WHERE user_id=:user",
+                        {"user": user})    
+    budget_monthly = db.execute("SELECT * FROM monthly WHERE user_id=:user",
+                                {"user": user})
+    budget_daily = db.execute("SELECT * FROM daily WHERE user_id=:user",
+                              {"user": user})
+    savings = db.execute("SELECT * FROM savings WHERE user_id=:user",
+                         {"user": user})
+    # Redirect
+    return render_template("index.html", income=income, budget_daily=budget_daily, budget_monthly=budget_monthly, savings=savings)
+
+
 @app.route("/logout")
 @login_required
 def logout():
@@ -181,7 +181,6 @@ def set():
 @login_required
 def add_row():
     # Determine user and chose table
-    t = request.form.get("chosen_table")
     user = login_session['user_id']                
     row_id = request.form.get("row_id")
     t = request.form.get("add_row")
@@ -411,7 +410,7 @@ def add_savings():
         update_table = db.execute("SELECT * FROM savings WHERE user_id=:user AND item=:row",
                                   {"user": user, "row": row}).fetchone()
         saved = float(update_table['saved']) + float(value)
-        available = update_table['expected'] + saved
+        available = saved
         db.execute("UPDATE savings SET saved=:saved, available=:available WHERE user_id=:user AND item=:row",
                    {"saved": saved, "available": available, "user": user, "row": row})
         db.commit()
